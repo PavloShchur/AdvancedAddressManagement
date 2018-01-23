@@ -1,0 +1,3 @@
+<apex:page showHeader="true" standardController="Contact" language="{!$CurrentPage.parameters.lang}">
+	<apex:include pageName="{!$Page.AddressList}?id={!Contact.Id}"/>
+</apex:page>

@@ -1,0 +1,210 @@
+<apex:page showHeader="true" controller="DeactivateAddressController" language="{!$CurrentPage.parameters.lang}">
+  <script src="{!URLFOR($Resource.AAMResources, 'jquery-1.11.3.min.js')}"></script>
+  <script src="{!URLFOR($Resource.AAMResources, 'common_scripts.js')}"></script>
+  <script type="text/javascript">function setFocusOnLoad() {}</script>
+  <link rel="stylesheet" href="{!URLFOR($Resource.AAMResources, 'common_styles.css')}"/>
+  <link rel="stylesheet" href="{!URLFOR($Resource.AAMResources, 'addressnewmgmt_styles.css')}"/>
+
+  <div class="height" style="position: relative;">
+    <div class="pleaseWait hidden"></div>
+    <div id="deactivateAddressAccountDialog" class="customDialog hidden">
+      <div class="popupScreen">
+        <div class="popupScreenHeader">Notification</div>
+        <div class="popupScreenData">
+          <div style="font-weight: bold;">{!$Label.Message_Deactivate_Address_Account}</div>
+          <div style="padding-top: 10px;">
+            <input type="button" class="btn" style="width: 80px;" value="Yes" onclick="dialog( 'deactivateAddressAccountDialog', false ); deactivateAddressAccount();"></input>
+            <input type="button" class="btn" style="width: 80px;" value="No" onclick="dialog( 'deactivateAddressAccountDialog', false );"></input>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="deactivateAndCreateAddressAccountDialog" class="customDialog hidden">
+      <div class="popupScreen">
+        <div class="popupScreenHeader">Notification</div>
+        <div class="popupScreenData">
+          <div style="font-weight: bold;">{!$Label.Message_Deactivate_And_Create_Address_Account}</div>
+          <div style="padding-top: 10px;">
+            <input type="button" class="btn" style="width: 80px;" value="Yes" onclick="dialog( 'deactivateAndCreateAddressAccountDialog', false ); deactivateAndCreateAddressAccount();"></input>
+            <input type="button" class="btn" style="width: 80px;" value="No" onclick="dialog( 'deactivateAndCreateAddressAccountDialog', false );"></input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <apex:form id="form" styleClass="height">
+      <apex:actionStatus id="status" onstart="status( true );" onstop="status( false );"/>
+      <apex:actionFunction name="deactivateAddressAccount" action="{!deactivateAddressAccount}" reRender="form" status="status"/>
+      <apex:actionFunction name="deactivateAndCreateAddressAccount" action="{!deactivateAndCreateAddressAccount}" reRender="form" status="status"/>
+      <apex:actionFunction name="cancel" action="{!cancel}" reRender="form" status="status"/>
+
+      <apex:actionFunction name="filterRelatedContacts" action="{!filterRelatedContacts}" reRender="relatedContactResultRecords, msgs" status="status">
+        <apex:param name="filterTextRelatedContacts" value="" assignTo="{!filterTextRelatedContacts}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="linkAllContacts" action="{!linkAllContacts}" reRender="relatedContactResultRecords, selectedContactResult, msgs" status="status"/>
+      <apex:actionFunction name="linkContact" action="{!linkContact}" reRender="relatedContactResultRecords, selectedContactResult, msgs" status="status">
+        <apex:param name="linkContactId" value="" assignTo="{!linkContactId}"/>
+      </apex:actionFunction>
+
+      <apex:actionFunction name="filterSelectedContacts" action="{!filterSelectedContacts}" reRender="selectedContactResultRecords, msgs, customMessage" status="status">
+        <apex:param name="filterTextSelectedContacts" value="" assignTo="{!filterTextSelectedContacts}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="unlinkAllContacts" action="{!unlinkAllContacts}" reRender="relatedContactResultRecords, selectedContactResult, msgs, customMessage" status="status"/>
+      <apex:actionFunction name="unlinkContact" action="{!unlinkContact}" reRender="relatedContactResultRecords, selectedContactResult, msgs, customMessage" status="status">
+        <apex:param name="unlinkContactId" value="" assignTo="{!unlinkContactId}"/>
+      </apex:actionFunction>
+
+      <apex:pageMessages id="msgs"/>
+      <apex:outputPanel layout="block" styleClass="height" rendered="{!!hasError}">
+        <apex:pageBlock title="{!record['Name']}">
+
+          <apex:pageBlockButtons location="top">
+            <input type="button" class="btn" onclick="if( {!isAccount} ) { dialog( 'deactivateAddressAccountDialog', true ); }" value="{!$Label.Button_Text_Deactivate_Address}"></input>
+            <input type="button" class="btn" onclick="if( {!isAccount} ) { dialog( 'deactivateAndCreateAddressAccountDialog', true ); }" value="{!$Label.Button_Text_Deactivate_And_Create_Address}"></input>
+            <input type="button" class="btn" onclick="cancel();" value="{!$Label.Button_Text_Cancel_Return}"></input>
+          </apex:pageBlockButtons>
+
+          <apex:pageBlockSection id="addressInfo" title="{!$Label.fil_aam__page_header_address}" collapsible="false" columns="2">
+          <apex:facet name="header">
+            <apex:outputPanel layout="none">
+              <h3>{!$Label.fil_aam__page_header_address}</h3>
+            </apex:outputPanel>
+          </apex:facet>
+            <apex:repeat value="{!$ObjectType.Address__c.FieldSets.Deactivate_Address_Address_Fields}" var="field">
+              <apex:pageBlockSectionItem >
+                <apex:outputLabel value="{!field.label}"/>
+                <apex:outputPanel layout="block">
+                  <apex:outputField value="{!addressRecord[field.fieldPath]}"/>
+                </apex:outputPanel>
+              </apex:pageBlockSectionItem>
+            </apex:repeat>
+          </apex:pageBlockSection>
+
+          <apex:pageBlockSection id="addressMappingInfo" title="{!$Label.fil_aam__page_header_additional_information}" collapsible="false" columns="2">
+            <apex:repeat value="{!addressMappingFields}" var="field">
+              <apex:pageBlockSectionItem >
+                <apex:outputLabel value="{!field.label}"/>
+                <apex:outputPanel layout="block">
+                  <apex:outputField value="{!addressMappingRecord[field.fieldPath]}"/>
+                </apex:outputPanel>
+              </apex:pageBlockSectionItem>
+            </apex:repeat>
+          </apex:pageBlockSection>
+
+          <apex:pageBlockSection id="relatedContactResult" rendered="{!isAccount && !settings.Enforce_Contact_Address_Deactivation__c}" collapsible="true" columns="1">
+            <apex:facet name="header"><!--
+              --><h3>{!SUBSTITUTE( $Label.Page_Header_Related_Contacts, '{0}', TEXT(relatedContacts.size) )}</h3><!--
+              --><div class="inlineb" style="position: relative; margin-left: 25px; vertical-align: middle;"><!--
+                --><input type="text" id="searchRelatedContacts" class="search" onkeypress="return preventSubmission( event );" onkeyup="showXButton( 'searchRelatedContacts' ); filter( this.value, 1000, filterRelatedContacts, event );" value="{!filterTextRelatedContacts}" placeholder="Search"></input><script type="text/javascript">showXButton( 'searchRelatedContacts' );</script><!--
+                --><div class="search" onclick="$('#searchRelatedContacts').focus();"></div><!--
+                --><div class="searchX hidden" onclick="removeXButton( 'searchRelatedContacts' ); filter( '', 20, filterRelatedContacts );"></div><!--
+              --></div><!--
+            --></apex:facet>
+            <apex:pageBlockSectionItem >
+              <apex:outputPanel layout="block" id="relatedContactResultRecords" style="max-height: {!TEXT(settings.Acc_Deact_Addr_Rel_Cont_H__c)}px; overflow-y: auto;">
+                <table cellpadding="0" cellspacing="0" class="table list">
+                  <thead>
+                    <tr>
+                      <th style="width: 1px; padding: 1px;">
+                        <input type="button" class="btn" value="{!$Label.Button_Text_Deactivate_All}" onclick="linkAllContacts();" style="display: {!IF( !areAllFilteredRelatedContactsSelected, 'inline', 'none' )}; width: 100%; margin: 0;"></input>
+                        <input type="button" class="btnDisabled" value="{!$Label.Button_Text_Deactivate_All}" disabled="disabled" style="display: {!IF( !areAllFilteredRelatedContactsSelected, 'none', 'inline' )}; width: 100%; margin: 0;"></input>
+                      </th>
+                      <apex:repeat value="{!$ObjectType.Contact.FieldSets.Deactivate_Address_Related_Contacts_Fiel}" var="field">
+                        <th>{!field.label}</th>
+                      </apex:repeat>
+                    </tr>
+                  </thead>
+                  <tbody style="display: {!IF( filterTextRelatedContacts == '' || filteredRelatedContacts.size > 0, 'table-row-group', 'none')};">
+                    <apex:repeat value="{!filteredRelatedContacts}" var="contact">
+                      <tr>
+                        <td style="padding: 1px;">
+                          <input type="button" class="btn" value="{!$Label.Button_Text_Deactivate}" onclick="linkContact( '{!contact.record.Id}' );" style="display: {!IF( !contact.selected, 'inline', 'none' )}; width: 100%; margin: 0;"></input>
+                          <input type="button" class="btnDisabled" value="{!$Label.Button_Text_Deactivate}" disabled="disabled" style="display: {!IF( !contact.selected, 'none', 'inline' )}; width: 100%; margin: 0;"></input>
+                        </td>
+                        <apex:repeat value="{!$ObjectType.Contact.FieldSets.Deactivate_Address_Related_Contacts_Fiel}" var="field">
+                          <td>
+                            <apex:outputField value="{!contact.record[field]}"/>
+                          </td>
+                        </apex:repeat>
+                      </tr>
+                    </apex:repeat>
+                  </tbody>
+                  <tbody style="display: {!IF( filterTextRelatedContacts != '' && filteredRelatedContacts.size == 0, 'table-row-group', 'none')};">
+                    <tr>
+                      <td colspan="{!$ObjectType.Contact.FieldSets.Deactivate_Address_Related_Contacts_Fiel.size + 1}">
+                        {!$Label.fil_aam__message_no_search_result}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+
+          <apex:pageBlockSection id="selectedContactResult" rendered="{!isAccount}" collapsible="true" columns="1">
+            <apex:facet name="header"><!--
+              --><h3>{!SUBSTITUTE( $Label.Page_Header_Selected_Contacts, '{0}', TEXT(selectedContacts.size) )}</h3><!--
+              --><div class="inlineb" style="position: relative; margin-left: 25px; vertical-align: middle;"><!--
+                --><input type="text" id="searchSelectedContacts" class="search" onkeypress="return preventSubmission( event );" onkeyup="showXButton( 'searchSelectedContacts' ); filter( this.value, 1000, filterSelectedContacts, event );" value="{!filterTextSelectedContacts}" placeholder="Search"></input><script type="text/javascript">showXButton( 'searchSelectedContacts' );</script><!--
+                --><div class="search" onclick="$('#searchSelectedContacts').focus();"></div><!--
+                --><div class="searchX hidden" onclick="removeXButton( 'searchSelectedContacts' ); filter( '', 20, filterSelectedContacts );"></div><!--
+              --></div><!--
+            --></apex:facet>
+            <apex:pageBlockSectionItem >
+              <apex:outputPanel layout="block" id="selectedContactResultRecords" style="max-height: {!TEXT(settings.Acc_Deact_Addr_Sel_Cont_H__c)}px; overflow-y: auto;">
+                <table cellpadding="0" cellspacing="0" class="table list">
+                  <thead>
+                    <tr>
+                      <th style="width: 1px; padding: 1px; display: {!IF( !settings.Enforce_Contact_Address_Deactivation__c, 'table-cell', 'none')};">
+                        <input type="button" class="btn" value="{!$Label.Button_Text_Reactivate_All}" onclick="unlinkAllContacts();" style="display: {!IF( filteredSelectedContacts.size > 0, 'inline', 'none' )}; width: 100%; margin: 0;"></input>
+                        <input type="button" class="btnDisabled" value="{!$Label.Button_Text_Reactivate_All}" disabled="disabled" style="display: {!IF( filteredSelectedContacts.size > 0, 'none', 'inline' )}; width: 100%; margin: 0;"></input>
+                      </th>
+                      <apex:repeat value="{!$ObjectType.Address_Mapping__c.FieldSets.Deactivate_Address_Selected_Contacts_Fie}" var="field">
+                        <th>{!field.label}</th>
+                      </apex:repeat>
+                      <apex:repeat value="{!$ObjectType.Contact.FieldSets.Deactivate_Address_Selected_Contacts_Fie}" var="field">
+                        <th>{!field.label}</th>
+                      </apex:repeat>
+                    </tr>
+                  </thead>
+                  <tbody style="display: {!IF( filterTextSelectedContacts == '' || filteredSelectedContacts.size > 0, 'table-row-group', 'none')};">
+                    <apex:repeat value="{!filteredSelectedContacts}" var="contact">
+                      <tr>
+                        <td style="padding: 1px; display: {!IF( !settings.Enforce_Contact_Address_Deactivation__c, 'table-cell', 'none')};">
+                          <input type="button" class="btn" value="{!$Label.Button_Text_Reactivate}" onclick="unlinkContact( '{!contact.record.Id}' );" style="display: {!IF( contact.selected, 'inline', 'none' )}; width: 100%; margin: 0;"></input>
+                          <input type="button" class="btnDisabled" value="{!$Label.Button_Text_Reactivate}" disabled="disabled" style="display: {!IF( contact.selected, 'none', 'inline' )}; width: 100%; margin: 0;"></input>
+                        </td>
+                        <apex:repeat value="{!$ObjectType.Address_Mapping__c.FieldSets.Deactivate_Address_Selected_Contacts_Fie}" var="field">
+                          <td>
+                            <apex:outputText value="{!addressLines}" rendered="{!field == 'FIL_AAM__Address_Lines__c'}"/>
+                            <apex:outputField value="{!contact.addressMapping[field]}" rendered="{!field != 'FIL_AAM__Address_Lines__c'}"/>
+                          </td>
+                        </apex:repeat>
+                        <apex:repeat value="{!$ObjectType.Contact.FieldSets.Deactivate_Address_Selected_Contacts_Fie}" var="field">
+                          <td>
+                            <apex:outputField value="{!contact.record[field]}"/>
+                          </td>
+                        </apex:repeat>
+                      </tr>
+                    </apex:repeat>
+                  </tbody>
+                  <tbody style="display: {!IF( filterTextSelectedContacts != '' && filteredSelectedContacts.size == 0, 'table-row-group', 'none')};">
+                    <tr>
+                      <td colspan="{!$ObjectType.Address_Mapping__c.FieldSets.Deactivate_Address_Selected_Contacts_Fie.size + $ObjectType.Contact.FieldSets.Deactivate_Address_Selected_Contacts_Fie.size + 1}">
+                        {!$Label.fil_aam__message_no_search_result}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+
+        </apex:pageBlock>
+      </apex:outputPanel>
+
+    </apex:form>
+
+  </div>
+
+</apex:page>

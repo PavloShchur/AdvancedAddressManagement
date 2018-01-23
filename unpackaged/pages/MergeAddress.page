@@ -1,0 +1,191 @@
+<apex:page showHeader="true" sidebar="true" controller="MergeAddressController" language="{!$CurrentPage.parameters.lang}">
+  <script src="{!URLFOR($Resource.AAMResources, 'jquery-1.11.3.min.js')}"></script>
+  <script src="{!URLFOR($Resource.AAMResources, 'common_scripts.js')}"></script>
+  <script src="{!URLFOR($Resource.AAMResources, 'mergeaddress_scripts.js')}"></script>
+  <link rel="stylesheet" href="{!URLFOR($Resource.AAMResources, 'common_styles.css')}"/>
+  <link rel="stylesheet" href="{!URLFOR($Resource.AAMResources, 'mergeaddress_styles.css')}"/>
+
+  <div id="mergeAddressDialog" class="customDialog hidden">
+    <div class="popupScreen">
+      <div class="popupScreenHeader">Notification</div>
+      <div class="popupScreenData">
+        <div style="font-weight: bold;">{!$Label.Message_Merge_Address}</div>
+        <div style="padding-top: 10px;">
+          <input type="button" class="btn" style="width: 80px;" value="Yes" onclick="dialog( 'mergeAddressDialog', false ); mergeAddresses();"></input>
+          <input type="button" class="btn" style="width: 80px;" value="No" onclick="dialog( 'mergeAddressDialog', false );"></input>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <apex:form id="form" styleClass="form height">
+    <apex:actionFunction name="cancel" action="{!cancel}"/>
+    <apex:actionFunction name="goToStep2" action="{!goToStep2}" reRender="form">
+      <apex:param name="accountId" value="" assignTo="{!accountId}"/>
+    </apex:actionFunction>
+    <apex:actionFunction name="goToStep3" action="{!goToStep3}" reRender="form">
+      <apex:param name="chosenAddresses" value="" assignTo="{!chosenAddresses}"/>
+    </apex:actionFunction>
+    <apex:actionFunction name="filterRelatedAddresses" action="{!filterRelatedAddresses}" reRender="relatedAddresses">
+      <apex:param name="filterTextRelatedAddresses" value="" assignTo="{!filterTextRelatedAddresses}"/>
+    </apex:actionFunction>
+    <apex:actionFunction name="mergeAddresses" action="{!mergeAddresses}" reRender="form"/>
+
+    <apex:pageMessages id="msgs"/>
+    <apex:outputPanel layout="block" styleClass="height" rendered="{!step == 1}">
+      <div style="width: 100%;">
+        <apex:image url="{!URLFOR($Resource.AAMResources, 'img/map-icon.gif')}" style="vertical-align: middle;"/><span style="vertical-align: middle; font-size: 18px; font-weight: bold; padding-left: 20px;">Merge Addresses</span>
+      </div>
+      <div style="width: 100%; height: 2px; background-color: #8A9EBE; margin-top: 10px;"></div>
+      <div style="width: 100%; margin-top: 10px;"><!--
+        --><span style="font-size: 14px; font-weight: bold;">Please select an Account Record</span><!--
+        --><div style="padding-left: 17px; display: inline-block;"><!--
+          --><input id="nextButton1" type="button" value="{!$Label.Button_Text_Next}" onclick="goToStep2( recordId );" class="btnDisabled" style="width: 6em;" disabled="true"></input><!--
+          --><apex:commandButton value="{!$Label.fil_aam__button_text_cancel}" onclick="cancel();" reRender="form" style="width: 6em;"></apex:commandButton><!--
+        --></div><!--
+      --></div>
+      <div style="width: 100%; height: 2px; background-color: #8A9EBE; margin-top: 10px;"></div>
+      <div style="display: inline-block; font-size: 14px; font-weight: bold; margin-top: 10px;">Account Record:</div><!--
+      --><div style="display: inline-block;"><!--
+        --><div class="inlineb" style="position: relative; margin-left: 10px; vertical-align: middle;"><!--
+          --><input type="text" id="searchAccounts" class="search" onkeypress="return preventSubmission( event );" onkeydown="this.prevValue = this.value;" onkeyup="if( this.prevValue != this.value ) { showXButton( 'searchAccounts' ); disableButton( null, 'nextButton1' ); } findAccounts( this.value, this.prevValue, event );" placeholder="Search"></input><!--
+            --><script type="text/javascript">
+              showXButton( 'searchAccounts' );
+            </script><!--
+          --><div class="search" onclick="$( '#searchAccounts' ).focus().val( $( '#searchAccounts' ).val() );"></div><!--
+          --><div class="searchX hidden" onclick="recordId = null; removeXButton( 'searchAccounts' ); disableButton( recordId, 'nextButton1' ); filter( '', 20, findAccounts );"></div><!--
+          --><div id="searchAccountsResult" class="searchResult hidden"></div><!--
+        --></div><!--
+      --></div>
+    </apex:outputPanel>
+
+    <apex:outputPanel layout="block" styleClass="height" rendered="{!step == 2}">
+      <div style="width: 100%;">
+        <apex:image url="{!URLFOR($Resource.AAMResources, 'img/map-icon.gif')}" style="vertical-align: middle;"/><span style="vertical-align: middle; font-size: 18px; font-weight: bold; padding-left: 20px;">Merge Addresses - {!account.Name} Account Hierarchy</span>
+      </div>
+      <div style="width: 100%; height: 2px; background-color: #8A9EBE; margin-top: 10px;"></div>
+      <div style="width: 100%; margin-top: 10px;"><!--
+        --><span style="font-size: 14px; font-weight: bold;">Select the records to merge</span><!--
+        --><div style="padding-left: 17px; display: inline-block;"><!--
+          --><input id="nextButton2" type="button" value="{!$Label.Button_Text_Next}" onclick="goToStep3( chosenAddresses );" class="btnDisabled" style="width: 6em;" disabled="true"></input><!--
+          --><apex:commandButton value="{!$Label.fil_aam__button_text_cancel}" onclick="cancel();" reRender="form" style="width: 6em;"></apex:commandButton><!--
+        --></div><!--
+      --></div>
+      <div style="width: 100%; height: 2px; background-color: #8A9EBE; margin-top: 10px;"></div>
+      <div style="padding-top: 10px; padding-bottom: 10px;">Please select up to three Address records that you wish to merge into one.</div>
+
+      <apex:pageBlock >
+        <apex:pageBlockSection id="relatedAddresses" collapsible="false" columns="1">
+          <apex:facet name="header"><!--
+            --><h3></h3><!--
+            --><div class="inlineb" style="position: relative; margin-left: 25px; vertical-align: middle;"><!--
+              --><input type="text" id="searchAddresses" class="search" onkeypress="return preventSubmission( event );" onkeyup="showXButton( 'searchAddresses' ); disableButton( this.value.length > 1 ? true : null, 'searchAddressesButton' );" value="{!filterTextRelatedAddresses}" placeholder="Search"></input><!--
+                --><script type="text/javascript">
+                  showXButton( 'searchAddresses' );
+                  disableButton( $( '#searchAddresses' ).val().length > 1 ? true : null, 'searchAddressesButton' );
+                </script><!--
+              --><div class="search" onclick="$('#searchAddresses').focus();"></div><!--
+              --><div class="searchX hidden" onclick="removeXButton( 'searchAddresses' ); disableButton( null, 'searchAddressesButton' );"></div><!--
+            --></div><!--
+            --><div class="inlineb" style="padding-left: 10px; vertical-align: middle;"><!--
+              --><input type="button" id="searchAddressesButton" class="btnDisabled" disabled="true" style="font-size: 0.98901em;" value="Find Addresses" onclick="filterRelatedAddresses( $( '#searchAddresses' ).val() );"></input><!--
+            --></div><!--
+            --><div class="inlineb" style="padding-left: 10px; vertical-align: middle; color: #D00000; display: {!IF(filterTextRelatedAddresses != '' && filteredRelatedAddresses.size == 0, 'inline', 'none')};">{!$Label.Message_No_Addresses_To_Merge}</div><!--
+          --></apex:facet>
+          <apex:pageBlockSectionItem >
+            <apex:outputPanel layout="block" id="relatedAddressesRecords" style="max-height: {!TEXT(settings.Acc_Merge_Addr_Addr_Srch_H__c)}px; overflow-y: auto;">
+              <script type="text/javascript">
+                storeChosenAddresses( true );
+                disableButton( null, 'nextButton2' );
+              </script>
+              <table cellpadding="0" cellspacing="0" class="table list">
+                <thead>
+                  <tr>
+                    <th style="width: 1px; padding: 1px;"></th>
+                    <apex:repeat value="{!$ObjectType.Address__c.FieldSets.Merge_Address_Address_Fields}" var="field">
+                      <th>{!field.label}</th>
+                    </apex:repeat>
+                  </tr>
+                </thead>
+                <tbody style="display: {!IF( filterTextRelatedAddresses == '' || filteredRelatedAddresses.size > 0, 'table-row-group', 'none')};">
+                  <apex:repeat value="{!filteredRelatedAddresses}" var="address">
+                    <tr id="{!address.Id}" class="selectedRelatedAddressRowJQ">
+                      <td style="padding: 1px;">
+                        <input type="checkbox" class="selectedRelatedAddressJQ" onchange="storeChosenAddresses();"></input>
+                      </td>
+                      <apex:repeat value="{!$ObjectType.Address__c.FieldSets.Merge_Address_Address_Fields}" var="field">
+                        <td>
+                          <apex:outputField value="{!address[field]}"/>
+                        </td>
+                      </apex:repeat>
+                    </tr>
+                  </apex:repeat>
+                </tbody>
+                <tbody style="display: {!IF( filterTextRelatedAddresses != '' && filteredRelatedAddresses.size == 0, 'table-row-group', 'none')};">
+                  <tr>
+                    <td colspan="{!$ObjectType.Address__c.FieldSets.Merge_Address_Address_Fields.size + 1}">
+                      {!$Label.Message_No_Search_Result}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </apex:outputPanel>
+          </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+      </apex:pageBlock>
+
+    </apex:outputPanel>
+
+    <apex:outputPanel layout="block" styleClass="height" rendered="{!step == 3}">
+      <div style="width: 100%;">
+        <apex:image url="{!URLFOR($Resource.AAMResources, 'img/map-icon.gif')}" style="vertical-align: middle;"/><span style="vertical-align: middle; font-size: 18px; font-weight: bold; padding-left: 20px;">Merge Addresses - {!account.Name} Account Hierarchy</span>
+      </div>
+      <div style="width: 100%; height: 2px; background-color: #8A9EBE; margin-top: 10px;"></div>
+      <div style="width: 100%; margin-top: 10px;"><!--
+        --><span style="font-size: 14px; font-weight: bold;">Select the values to retain</span><!--
+        --><div style="padding-left: 17px; display: inline-block;"><!--
+          --><input id="mergeAddresses" type="button" value="{!$Label.Button_Text_Merge}" onclick="dialog( 'mergeAddressDialog', true );" class="btn" style="width: 6em;"></input><!--
+          --><apex:commandButton value="{!$Label.fil_aam__button_text_cancel}" onclick="cancel();" reRender="form" style="width: 6em;"></apex:commandButton><!--
+        --></div><!--
+      --></div>
+      <div style="width: 100%; height: 2px; background-color: #8A9EBE; margin-top: 10px;"></div>
+
+      <div class="apexp" style="padding-top: 10px;">
+        <div class="detailList">
+          <table id="addressFieldSelectorJQ" class="table list" style="width: 100%;">
+            <tr>
+              <th></th>
+              <apex:repeat value="{!chosenRelatedAddresses.records}" var="address">
+                <th style="white-space: normal; text-align: center;">
+                  <div title="{!IF( LEN(chosenRelatedAddresses.recordIdToAddress[address.Id]) > 100, chosenRelatedAddresses.recordIdToAddress[address.Id], '')}">{!chosenRelatedAddresses.recordIdToAddressConcat[address.Id]}</div>
+                  <br/>
+                  <div><a href="#" onclick="selectAllAddressFieldsSelectorRadios( '{!address.Id}' );">[ Select All ]</a></div>
+                </th>
+              </apex:repeat>
+            </tr>
+            <apex:repeat value="{!chosenRelatedAddresses.fields}" var="field">
+              <tr id="{!field.name}">
+                <td style="vertical-align: middle; {!IF(field.isDifferent, 'background-color: #CCE9FF;', '')}"><b>{!field.label}</b></td>
+                <apex:repeat value="{!field.selectors}" var="selector">
+                  <td class="{!selector.recordId}">
+                    <apex:outputPanel layout="block" styleClass="inlineb" rendered="{!field.editable}"><!--
+                      --><apex:inputCheckbox value="{!selector.selected}" styleClass="hidden hiddenSelectorJQ"/><!--
+                      --><input type="radio" name="{!field.name}" class="selectorJQ" onchange="uncheckAddressFieldsSelectorRadios( this );"></input><!--
+                    --></apex:outputPanel><!--
+                    --><div class="inlineb"><!--
+                      --><apex:outputField rendered="{!!field.isCustom}" styleClass="data" value="{!chosenRelatedAddresses.recordIdToRecord[selector.recordId][field.name]}"/><!--
+                    --></div>
+                  </td>
+                </apex:repeat>
+              </tr>
+            </apex:repeat>
+          </table>
+          <script type="text/javascript">
+            checkAddressFieldSelectorRadios();
+          </script>
+        </div>
+      </div>
+
+    </apex:outputPanel>
+  </apex:form>
+</apex:page>

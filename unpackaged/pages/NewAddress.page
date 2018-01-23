@@ -1,0 +1,375 @@
+<apex:page showHeader="true" controller="NewAddressController" language="{!$CurrentPage.parameters.lang}">
+  <script src="{!URLFOR($Resource.AAMResources, 'jquery-1.11.3.min.js')}"></script>
+  <script src="{!URLFOR($Resource.AAMResources, 'common_scripts.js')}"></script>
+  <script type="text/javascript">function setFocusOnLoad() {}</script>
+  <link rel="stylesheet" href="{!URLFOR($Resource.AAMResources, 'common_styles.css')}"/>
+  <link rel="stylesheet" href="{!URLFOR($Resource.AAMResources, 'addressnewmgmt_styles.css')}"/>
+
+  <div class="height" style="position: relative;">
+    <div class="pleaseWait hidden"></div>
+    <div id="createAddressAccountDialog" class="customDialog hidden">
+      <div class="popupScreen">
+        <div class="popupScreenHeader">Notification</div>
+        <div class="popupScreenData">
+          <div style="font-weight: bold;">{!$Label.Message_Create_Address_Account}</div>
+          <div style="padding-top: 10px;">
+            <input type="button" class="btn" style="width: 80px;" value="Yes" onclick="dialog( 'createAddressAccountDialog', false ); createAddressAccount();"></input>
+            <input type="button" class="btn" style="width: 80px;" value="No" onclick="dialog( 'createAddressAccountDialog', false );"></input>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="createAddressContactDialog" class="customDialog hidden">
+      <div class="popupScreen">
+        <div class="popupScreenHeader">Notification</div>
+        <div class="popupScreenData">
+          <div style="font-weight: bold;">{!$Label.Message_Create_Address_Contact}</div>
+          <div style="padding-top: 10px;">
+            <input type="button" class="btn" style="width: 80px;" value="Yes" onclick="dialog( 'createAddressContactDialog', false ); if( {!isContact && accountId == null} ) { dialog( 'noAccountOnContactDialog', true ); } else { createAddressContact(); }"></input>
+            <input type="button" class="btn" style="width: 80px;" value="No" onclick="dialog( 'createAddressContactDialog', false );"></input>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="noAccountOnContactDialog" class="customDialog hidden">
+      <div class="popupScreen">
+        <div class="popupScreenHeader">Error</div>
+        <div class="popupScreenData">
+          <div style="font-weight: bold;">{!$Label.Message_No_Account_Id_On_Contact}</div>
+          <div style="padding-top: 10px;">
+            <input type="button" class="btn" style="width: 80px;" value="OK" onclick="dialog( 'noAccountOnContactDialog', false );"></input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <apex:form id="form" styleClass="height">
+      <apex:actionStatus id="status" onstart="status( true );" onstop="status( false );"/>
+      <apex:actionFunction name="createAddressAccount" action="{!createAddressAccount}" reRender="form" status="status"/>
+      <apex:actionFunction name="createAddressContact" action="{!createAddressContact}" reRender="form" status="status"/>
+      <apex:actionFunction name="cancel" action="{!cancel}" reRender="form" status="status"/>
+      <apex:actionFunction name="clearAddress" action="{!clearAddress}" reRender="addressInfo, searchResult, selectedContactResultRecords, msgs, customMessage" status="status"/>
+      <apex:actionFunction name="doSearch" action="{!doSearch}" reRender="searchResult, selectedContactResultRecords, msgs, customMessage"/>
+      <apex:actionFunction name="selectAddress" action="{!selectAddress}" reRender="addressInfo, searchResult, selectedContactResultRecords, msgs, customMessage">
+        <apex:param name="selectAddressId" value="" assignTo="{!selectAddressId}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="changeAddressType" action="{!filterRelatedContacts}" reRender="addressMappingInfo, relatedContactResultRecords, msgs, customMessage" status="status"/>
+
+      <apex:actionFunction name="filterRelatedContacts" action="{!filterRelatedContacts}" reRender="relatedContactResultRecords, msgs, customMessage" status="status">
+        <apex:param name="filterTextRelatedContacts" value="" assignTo="{!filterTextRelatedContacts}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="linkAllContacts" action="{!linkAllContacts}" reRender="relatedContactResultRecords, selectedContactResult, msgs, customMessage" status="status"/>
+      <apex:actionFunction name="linkContact" action="{!linkContact}" reRender="relatedContactResultRecords, selectedContactResult, msgs, customMessage" status="status">
+        <apex:param name="linkContactId" value="" assignTo="{!linkContactId}"/>
+      </apex:actionFunction>
+
+      <apex:actionFunction name="filterSelectedContacts" action="{!filterSelectedContacts}" reRender="selectedContactResultRecords, msgs, customMessage" status="status">
+        <apex:param name="filterTextSelectedContacts" value="" assignTo="{!filterTextSelectedContacts}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="unlinkAllContacts" action="{!unlinkAllContacts}" reRender="relatedContactResultRecords, selectedContactResult, msgs, customMessage" status="status"/>
+      <apex:actionFunction name="unlinkContact" action="{!unlinkContact}" reRender="relatedContactResultRecords, selectedContactResult, msgs, customMessage" status="status">
+        <apex:param name="unlinkContactId" value="" assignTo="{!unlinkContactId}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="setHeaderAddressTypes" action="{!setHeaderAddressTypes}" reRender="selectedContactResultRecords, msgs, customMessage" status="status">
+        <apex:param name="headerAddressType" value="" assignTo="{!headerAddressType}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="setHeaderPrimaries" action="{!setHeaderPrimaries}" reRender="selectedContactResultRecords, msgs, customMessage" status="status">
+        <apex:param name="headerPrimary" value="" assignTo="{!headerPrimary}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="reRenderSelectedContacts" action="{!reRender}" reRender="selectedContactResultRecords, msgs, customMessage" status="status"/>
+
+      <apex:actionFunction name="filterRelatedAddresses" action="{!filterRelatedAddresses}" reRender="relatedAddressesResultRecords, msgs, customMessage" status="status">
+        <apex:param name="filterTextRelatedAddresses" value="" assignTo="{!filterTextRelatedAddresses}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="filterRelatedAddressesRadio" action="{!filterRelatedAddresses}" reRender="relatedAddressesResultRecords, msgs, customMessage" status="status">
+        <apex:param name="primaryFilterRelatedAddresses" value="" assignTo="{!primaryFilterRelatedAddresses}"/>
+      </apex:actionFunction>
+
+      <apex:pageMessages id="msgs"/>
+      <apex:outputPanel layout="block" styleClass="height" rendered="{!!hasError}">
+        <apex:pageBlock title="{!record['Name']}">
+
+          <apex:pageBlockButtons location="top">
+            <input type="button" class="btn" onclick="if( fieldsAreNotEmpty( true, 'requiredFieldsError' ) ) { if( {!isAccount} ) { dialog( 'createAddressAccountDialog', true ); } else if( {!isContact} ) { dialog( 'createAddressContactDialog', true ); } }" value="{!IF( isAccount, $Label.Button_Text_Create_Address_Links, $Label.Button_Text_Create_Address_Link )}"></input>
+            <input type="button" class="btn" onclick="cancel();" value="{!$Label.Button_Text_Cancel_Return}"></input>
+            <input type="button" class="btn" onclick="clearAddress();" value="{!$Label.Button_Text_Clear_Address}"></input>
+          </apex:pageBlockButtons>
+
+          <apex:pageBlockSection id="addressInfo" title="{!$Label.fil_aam__page_header_address}" collapsible="false" columns="2">
+          <apex:facet name="header">
+            <apex:outputPanel layout="none">
+              <h3>{!$Label.fil_aam__page_header_address}</h3>
+              <div id="requiredFieldsError" class="inlineb hidden" style="color: darkred; font-weight: bold; position: relative; left: 20%;">{!$Label.Message_Not_All_Required_Fields_Entered}</div><apex:outputPanel layout="block" id="customMessage" styleClass="inlineb" style="color: darkred; font-weight: bold; position: relative; left: 15%;">{!customMessage}</apex:outputPanel>
+              <div class="required" style="float: right; font-size: 0.9em;">&nbsp;= Required Information</div>
+            </apex:outputPanel>
+          </apex:facet>
+            <apex:repeat value="{!$ObjectType.Address__c.FieldSets.New_Address_Address_Fields}" var="field">
+              <apex:pageBlockSectionItem >
+                <apex:outputLabel value="{!field.label}"/>
+                <apex:outputPanel layout="block">
+                  <div class="{!IF( field.required || field.dbrequired, 'required', '' )}">
+                    <apex:inputField styleClass="addressFieldJS" value="{!addressRecord[field.fieldPath]}" onchange="checkEmptyField( this, 'requiredFieldsError' ); doSearch();"/>
+                    <div class="errorMsg hidden"><apex:outputText escape="false" value="{!$Label.fil_aam__message_no_field_value}"/></div>
+                  </div>
+                </apex:outputPanel>
+              </apex:pageBlockSectionItem>
+            </apex:repeat>
+          </apex:pageBlockSection>
+
+          <apex:pageBlockSection id="addressMappingInfo" title="{!$Label.fil_aam__page_header_additional_information}" collapsible="false" columns="2">
+            <apex:repeat value="{!addressMappingHardcodedFields}" var="field">
+              <apex:pageBlockSectionItem >
+                <apex:outputLabel value="{!field.label}"/>
+                <apex:outputPanel layout="block">
+                  <div class="required">
+                    <apex:selectList id="addressMappingType" styleClass="addressFieldJS" value="{!addressMappingRecord.Address_Type__c}" onchange="checkEmptyField( this, 'requiredFieldsError' ); changeAddressType();" multiselect="false" size="1" rendered="{!field.fieldPath == 'FIL_AAM__Address_Type__c'}">
+                      <apex:selectOptions value="{!addressTypeValues}"/>
+                    </apex:selectList>
+                    <apex:inputField styleClass="addressFieldJS" value="{!addressMappingRecord[field.fieldPath]}" onchange="checkEmptyField( this, 'requiredFieldsError' );" rendered="{!field.fieldPath != 'FIL_AAM__Address_Type__c'}"/>
+                    <div class="errorMsg hidden"><apex:outputText escape="false" value="{!$Label.fil_aam__message_no_field_value}"/></div>
+                  </div>
+                </apex:outputPanel>
+              </apex:pageBlockSectionItem>
+            </apex:repeat>
+            <apex:repeat value="{!addressMappingFields}" var="field">
+              <apex:pageBlockSectionItem >
+                <apex:outputLabel value="{!field.label}"/>
+                <apex:outputPanel layout="block">
+                  <div class="{!IF( field.required, 'required', '' )}">
+                    <apex:inputField styleClass="addressFieldJS" value="{!addressMappingRecord[field.fieldPath]}" onchange="checkEmptyField( this, 'requiredFieldsError' );"/>
+                    <div class="errorMsg hidden"><apex:outputText escape="false" value="{!$Label.fil_aam__message_no_field_value}"/></div>
+                  </div>
+                </apex:outputPanel>
+              </apex:pageBlockSectionItem>
+            </apex:repeat>
+          </apex:pageBlockSection>
+
+          <apex:pageBlockSection id="searchResult" title="{!SUBSTITUTE( $Label.fil_aam__page_header_address_search, '{0}', TEXT(addresses.size) )}" collapsible="true" columns="1">
+            <apex:pageBlockSectionItem >
+              <apex:outputPanel layout="block" style="max-height: {!IF( isAccount, TEXT(settings.Acc_New_Addr_Addr_Srch_H__c), IF( isContact, TEXT(settings.Cont_New_Addr_Addr_Srch_H__c), '100' ) )}px; overflow-y: auto;">
+                <table cellpadding="0" cellspacing="0" class="table list">
+                  <thead>
+                    <tr>
+                      <th style="width: 1px; padding: 1px;"></th>
+                      <apex:repeat value="{!$ObjectType.Address__c.FieldSets.New_Address_Address_Search_Result_Fields}" var="field">
+                        <th>{!field.label}</th>
+                      </apex:repeat>
+                    </tr>
+                  </thead>
+                  <tbody style="display: {!IF(numFieldsEntered >= minFieldsEntered || addresses.size > 0, 'table-row-group', 'none')};" >
+                    <apex:repeat value="{!addresses}" var="address">
+                      <tr>
+                        <td style="padding: 1px;">
+                          <input type="button" class="btn" onclick="selectAddress( '{!address.Id}' );" value="{!$Label.Button_Text_Account_Link_Address}" style="width: 100%; margin: 0;"></input>
+                        </td>
+                        <apex:repeat value="{!$ObjectType.Address__c.FieldSets.New_Address_Address_Search_Result_Fields}" var="field">
+                          <td>
+                            <apex:outputField value="{!address[field]}"/>
+                          </td>
+                        </apex:repeat>
+                      </tr>
+                    </apex:repeat>
+                  </tbody>
+                  <tbody style="display: {!IF(numFieldsEntered >= minFieldsEntered && addresses.size == 0, 'table-row-group', 'none')};" >
+                      <tr>
+                        <td colspan="{!$ObjectType.Address__c.FieldSets.New_Address_Address_Search_Result_Fields.size + 1}">
+                          {!$Label.Message_No_Search_Results}
+                        </td>
+                      </tr>
+                  </tbody>
+                  <tbody style="display: {!IF(numFieldsEntered < minFieldsEntered, 'table-row-group', 'none')};" >
+                      <tr>
+                        <td colspan="{!$ObjectType.Address__c.FieldSets.New_Address_Address_Search_Result_Fields.size + 1}">
+                          {!$Label.Message_No_Minimum_Amount_Of_Fields_Entered_For_Search}
+                        </td>
+                      </tr>
+                  </tbody>
+                </table>
+              </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+
+          <apex:pageBlockSection id="relatedContactResult" rendered="{!isAccount}" collapsible="true" columns="1">
+            <apex:facet name="header"><!--
+              --><h3>{!SUBSTITUTE( $Label.Page_Header_Related_Contacts, '{0}', TEXT(relatedContacts.size) )}</h3><!--
+              --><div class="inlineb" style="position: relative; margin-left: 25px; vertical-align: middle;"><!--
+                --><input type="text" id="searchRelatedContacts" class="search" onkeypress="return preventSubmission( event );"  onkeyup="showXButton( 'searchRelatedContacts' ); filter( this.value, 1000, filterRelatedContacts, event );" value="{!filterTextRelatedContacts}" placeholder="Search"></input><script type="text/javascript">showXButton( 'searchRelatedContacts' );</script><!--
+                --><div class="search" onclick="$('#searchRelatedContacts').focus();"></div><!--
+                --><div class="searchX hidden" onclick="removeXButton( 'searchRelatedContacts' ); filter( '', 20, filterRelatedContacts );"></div><!--
+              --></div><!--
+            --></apex:facet>
+            <apex:pageBlockSectionItem >
+              <apex:outputPanel layout="block" id="relatedContactResultRecords" style="max-height: {!TEXT(settings.Acc_New_Addr_Rel_Cont_H__c)}px; overflow-y: auto;">
+                <table cellpadding="0" cellspacing="0" class="table list">
+                  <thead>
+                    <tr>
+                      <th style="width: 1px; padding: 1px;">
+                        <input type="button" class="btn" value="{!$Label.Button_Text_Link_All}" onclick="linkAllContacts();" style="display: {!IF( addressMappingRecord.Address_Type__c != null && !areAllFilteredRelatedContactsSelected, 'inline', 'none' )}; width: 100%; margin: 0;"></input>
+                        <input type="button" class="btnDisabled" value="{!$Label.Button_Text_Link_All}" disabled="disabled" style="display: {!IF( addressMappingRecord.Address_Type__c != null && !areAllFilteredRelatedContactsSelected, 'none', 'inline' )}; width: 100%; margin: 0;"></input>
+                      </th>
+                      <apex:repeat value="{!$ObjectType.Contact.FieldSets.New_Address_Related_Contacts_Fields}" var="field">
+                        <th>{!field.label}</th>
+                      </apex:repeat>
+                    </tr>
+                  </thead>
+                  <tbody style="display: {!IF( filterTextRelatedContacts == '' || filteredRelatedContacts.size > 0, 'table-row-group', 'none')};">
+                    <apex:repeat value="{!filteredRelatedContacts}" var="contact">
+                      <tr>
+                        <td style="padding: 1px;">
+                          <input type="button" class="btn" value="{!$Label.Button_Text_Link_Address}" onclick="linkContact( '{!contact.record.Id}' );" style="display: {!IF( addressMappingRecord.Address_Type__c != null && !contact.selected, 'inline', 'none' )}; width: 100%; margin: 0;"></input>
+                          <input type="button" class="btnDisabled" value="{!$Label.Button_Text_Link_Address}" disabled="disabled" style="display: {!IF( addressMappingRecord.Address_Type__c != null && !contact.selected, 'none', 'inline' )}; width: 100%; margin: 0;"></input>
+                        </td>
+                        <apex:repeat value="{!$ObjectType.Contact.FieldSets.New_Address_Related_Contacts_Fields}" var="field">
+                          <td>
+                            <apex:outputField value="{!contact.record[field]}"/>
+                          </td>
+                        </apex:repeat>
+                      </tr>
+                    </apex:repeat>
+                  </tbody>
+                  <tbody style="display: {!IF( filterTextRelatedContacts != '' && filteredRelatedContacts.size == 0, 'table-row-group', 'none')};">
+                    <tr>
+                      <td colspan="{!$ObjectType.Contact.FieldSets.New_Address_Related_Contacts_Fields.size + 1}">
+                        {!$Label.fil_aam__message_no_search_result}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+
+          <apex:pageBlockSection id="selectedContactResult" rendered="{!isAccount}" collapsible="true" columns="1">
+            <apex:facet name="header"><!--
+              --><h3>{!SUBSTITUTE( $Label.Page_Header_Selected_Contacts, '{0}', TEXT(selectedContacts.size) )}</h3><!--
+              --><div class="inlineb" style="position: relative; margin-left: 25px; vertical-align: middle;"><!--
+                --><input type="text" id="searchSelectedContacts" class="search" onkeypress="return preventSubmission( event );" onkeyup="showXButton( 'searchSelectedContacts' ); filter( this.value, 1000, filterSelectedContacts, event );" value="{!filterTextSelectedContacts}" placeholder="Search"></input><script type="text/javascript">showXButton( 'searchSelectedContacts' );</script><!--
+                --><div class="search" onclick="$('#searchSelectedContacts').focus();"></div><!--
+                --><div class="searchX hidden" onclick="removeXButton( 'searchSelectedContacts' ); filter( '', 20, filterSelectedContacts );"></div><!--
+              --></div><!--
+            --></apex:facet>
+            <apex:pageBlockSectionItem >
+              <apex:outputPanel layout="block" id="selectedContactResultRecords" style="max-height: {!TEXT(settings.Acc_New_Addr_Sel_Cont_H__c)}px; overflow-y: auto;">
+                <table cellpadding="0" cellspacing="0" class="table list">
+                  <thead>
+                    <tr>
+                      <th style="width: 1px; padding: 1px;">
+                        <input type="button" class="btn" value="{!$Label.Button_Text_Unlink_All}" onclick="unlinkAllContacts();" style="display: {!IF( filteredSelectedContacts.size > 0, 'inline', 'none' )}; width: 100%; margin: 0;"></input>
+                        <input type="button" class="btnDisabled" value="{!$Label.Button_Text_Unlink_All}" disabled="disabled" style="display: {!IF( filteredSelectedContacts.size > 0, 'none', 'inline' )}; width: 100%; margin: 0;"></input>
+                      </th>
+                      <apex:repeat value="{!$ObjectType.Address_Mapping__c.FieldSets.New_Address_Selected_Contacts_Fields}" var="field">
+                        <th>{!field.label}<!--
+                        --><div class="inlineb" style="padding-left: 5px; {!IF( filteredSelectedContacts.size > 0 && field == 'FIL_AAM__Address_Type__c' && editableSelectedContactsFields != '' && CONTAINS( editableSelectedContactsFields, field ), '', 'display: none;' )}"><!--
+                          --><apex:selectList value="{!headerAddressType}" style="max-width: 80px;" multiselect="false" size="1" onchange="setHeaderAddressTypes( this.value );">
+                            <apex:selectOptions value="{!headerAddressTypes}"/>
+                          </apex:selectList><!--
+                        --></div><!--
+                        --><div class="inlineb" style="padding-left: 5px; {!IF( filteredSelectedContacts.size > 0 && field == 'FIL_AAM__Primary__c' && editableSelectedContactsFields != '' && CONTAINS( editableSelectedContactsFields, field ), '', 'display: none;' )}"><!--
+                          --><apex:inputCheckbox value="{!headerPrimary}" onchange="setHeaderPrimaries( this.checked );"/><!--
+                        --></div><!--
+                        --></th>
+                      </apex:repeat>
+                      <apex:repeat value="{!$ObjectType.Contact.FieldSets.New_Address_Selected_Contacts_Fields}" var="field">
+                        <th>{!field.label}</th>
+                      </apex:repeat>
+                    </tr>
+                  </thead>
+                  <tbody style="display: {!IF( filterTextSelectedContacts == '' || filteredSelectedContacts.size > 0, 'table-row-group', 'none')};">
+                    <apex:repeat value="{!filteredSelectedContacts}" var="contact">
+                      <tr>
+                        <td style="padding: 1px;">
+                          <input type="button" class="btn" value="{!$Label.Button_Text_Unlink_Address}" onclick="unlinkContact( '{!contact.record.Id}' );" style="display: {!IF( contact.selected, 'inline', 'none' )}; width: 100%; margin: 0;"></input>
+                          <input type="button" class="btnDisabled" value="{!$Label.Button_Text_Unlink_Address}" disabled="disabled" style="display: {!IF( contact.selected, 'none', 'inline' )}; width: 100%; margin: 0;"></input>
+                        </td>
+                        <apex:repeat value="{!$ObjectType.Address_Mapping__c.FieldSets.New_Address_Selected_Contacts_Fields}" var="field">
+                          <td style="{!IF( field == 'FIL_AAM__Address_Type__c', 'width: 140px;', '')}">
+                            <apex:selectList value="{!contact.addressMapping[field]}" rendered="{!editableSelectedContactsFields != '' && CONTAINS( editableSelectedContactsFields, field ) && field == 'FIL_AAM__Address_Type__c'}" multiselect="false" size="1" style="width: 100%;" onchange="reRenderSelectedContacts();">
+                              <apex:selectOptions value="{!addressTypeValues}"/>
+                            </apex:selectList>
+                            <apex:outputText value="{!addressLines}" rendered="{!field == 'FIL_AAM__Address_Lines__c'}"/>
+                            <apex:outputField value="{!contact.addressMapping[field]}" rendered="{!( field != 'FIL_AAM__Address_Lines__c' ) && ( field == 'FIL_AAM__Contact__c' || field == 'FIL_AAM__Account__c' || editableSelectedContactsFields == '' || !CONTAINS( editableSelectedContactsFields, field ) )}"/>
+                            <apex:inputField value="{!contact.addressMapping[field]}" rendered="{!editableSelectedContactsFields != '' && CONTAINS( editableSelectedContactsFields, field ) && field != 'FIL_AAM__Address_Lines__c' && field != 'FIL_AAM__Address_Type__c' && field != 'FIL_AAM__Contact__c' && field != 'FIL_AAM__Account__c'}" onchange="{!IF( field == 'FIL_AAM__Primary__c', 'reRenderSelectedContacts();', '' )}"/>
+                          </td>
+                        </apex:repeat>
+                        <apex:repeat value="{!$ObjectType.Contact.FieldSets.New_Address_Selected_Contacts_Fields}" var="field">
+                          <td>
+                            <apex:outputField value="{!contact.record[field]}"/>
+                          </td>
+                        </apex:repeat>
+                      </tr>
+                    </apex:repeat>
+                  </tbody>
+                  <tbody style="display: {!IF( filterTextSelectedContacts != '' && filteredSelectedContacts.size == 0, 'table-row-group', 'none')};">
+                    <tr>
+                      <td colspan="{!$ObjectType.Address_Mapping__c.FieldSets.New_Address_Selected_Contacts_Fields.size + $ObjectType.Contact.FieldSets.New_Address_Selected_Contacts_Fields.size + 1}">
+                        {!$Label.fil_aam__message_no_search_result}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+
+          <apex:pageBlockSection id="relatedAddressesResult" rendered="{!isContact}" collapsible="true" columns="1">
+            <apex:facet name="header"><!--
+              --><apex:outputPanel layout="none"><!--
+                --><h3>{!record['Account']['Name']} Addresses</h3><!--
+                --><div class="inlineb" style="position: relative; margin-left: 25px; vertical-align: middle;"><!--
+                  --><apex:selectRadio value="{!primaryFilterRelatedAddresses}" onclick="filter( this.value, 20, filterRelatedAddressesRadio );">
+                    <apex:selectOptions value="{!primaryFilterRelatedAddressesOptions}"/>
+                  </apex:selectRadio><!--
+                --></div><!--
+                --><div class="inlineb" style="position: relative; margin-left: 25px; vertical-align: middle;"><!--
+                  --><input type="text" id="searchRelatedAddresses" class="search" onkeypress="return preventSubmission( event );" onkeyup="showXButton( 'searchRelatedAddresses' ); filter( this.value, 1000, filterRelatedAddresses, event );" value="{!filterTextRelatedAddresses}" placeholder="Search"></input><script type="text/javascript">showXButton( 'searchRelatedAddresses' );</script><!--
+                  --><div class="search" onclick="$('#searchRelatedAddresses').focus();"></div><!--
+                  --><div class="searchX hidden" onclick="removeXButton( 'searchRelatedAddresses' ); filter( '', 20, filterRelatedAddresses );"></div><!--
+                --></div><!--
+              --></apex:outputPanel><!--
+            --></apex:facet>
+            <apex:pageBlockSectionItem >
+              <apex:outputPanel layout="block" id="relatedAddressesResultRecords" style="max-height: {!TEXT(settings.Cont_New_Addr_Rel_Addr_H__c)}px; overflow-y: auto;">
+                <table cellpadding="0" cellspacing="0" class="table list">
+                  <thead>
+                    <tr>
+                      <th style="width: 1px; padding: 1px;"></th>
+                      <apex:repeat value="{!$ObjectType.Address_Mapping__c.FieldSets.New_Address_Account_Addresses_Fields}" var="field">
+                        <th>{!field.label}</th>
+                      </apex:repeat>
+                    </tr>
+                  </thead>
+                  <tbody style="display: {!IF( filterTextRelatedAddresses == '' || filteredRelatedAddresses.size > 0, 'table-row-group', 'none')};">
+                    <apex:repeat value="{!filteredRelatedAddresses}" var="address">
+                      <tr>
+                        <td style="padding: 1px;">
+                          <input type="button" class="btn" value="{!$Label.Button_Text_Link_Address}" onclick="selectAddress( '{!address.record.Address__c}' );" style="width: 100%; margin: 0;"></input>
+                        </td>
+                        <apex:repeat value="{!$ObjectType.Address_Mapping__c.FieldSets.New_Address_Account_Addresses_Fields}" var="field">
+                          <td>
+                            <apex:outputField value="{!address.record[field]}" rendered="{!field != 'FIL_AAM__Address_Lines__c'}"/>
+                            <apex:outputText value="{!address.address}" rendered="{!field == 'FIL_AAM__Address_Lines__c'}"/>
+                          </td>
+                        </apex:repeat>
+                      </tr>
+                    </apex:repeat>
+                  </tbody>
+                  <tbody style="display: {!IF( filterTextRelatedAddresses != '' && filteredRelatedAddresses.size == 0, 'table-row-group', 'none')};">
+                    <tr>
+                      <td colspan="{!$ObjectType.Address_Mapping__c.FieldSets.New_Address_Account_Addresses_Fields.size + 1}">
+                        {!$Label.fil_aam__message_no_search_result}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+
+        </apex:pageBlock>
+      </apex:outputPanel>
+
+    </apex:form>
+
+  </div>
+
+</apex:page>

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Acc_Billing_Addr_Source__c</fullName>
+        <defaultValue>&apos;Billing Address&apos;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Put one of the values of the Address Type picklist of the Address Mapping object. This value will be the source of the Billing Address data on Account.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Put one of the values of the Address Type picklist of the Address Mapping object. This value will be the source of the Billing Address data on Account.</inlineHelpText>
+        <label>Account Billing Address - Address Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Acc_Deact_Addr_Rel_Cont_H__c</fullName>
+        <defaultValue>226</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Account Deactivate Address: Related Contacts Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Account Deactivate Address: Related Contacts Height (in pixels)</inlineHelpText>
+        <label>Acc. Deact. Addr.: Rel. Contacts Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Acc_Deact_Addr_Sel_Cont_H__c</fullName>
+        <defaultValue>226</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Account Deactivate Address: Selected Contacts Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Account Deactivate Address: Selected Contacts Height (in pixels)</inlineHelpText>
+        <label>Acc. Deact. Addr.: Sel. Contacts Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Acc_Merge_Addr_Addr_Srch_H__c</fullName>
+        <defaultValue>374</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Account Merge Address: Address Search Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Account Merge Address: Address Search Height (in pixels)</inlineHelpText>
+        <label>Acc. Merge Addr.: Addr. Search Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Acc_Mgmt_Addr_Rel_Cont_H__c</fullName>
+        <defaultValue>226</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Account Manage Address: Related Contacts Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Account Manage Address: Related Contacts Height (in pixels)</inlineHelpText>
+        <label>Acc. Manage Addr.: Rel. Contacts Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Acc_Mgmt_Addr_Sel_Cont_H__c</fullName>
+        <defaultValue>226</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Account Manage Address: Selected Contacts Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Account Manage Address: Selected Contacts Height (in pixels)</inlineHelpText>
+        <label>Acc. Manage Addr.: Sel. Contacts Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Acc_New_Addr_Addr_Srch_H__c</fullName>
+        <defaultValue>149</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Account New Address: Address Search Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Account New Address: Address Search Height (in pixels)</inlineHelpText>
+        <label>Acc. New Addr.: Addr. Search Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Acc_New_Addr_Rel_Cont_H__c</fullName>
+        <defaultValue>226</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Account New Address: Related Contacts Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Account New Address: Related Contacts Height (in pixels)</inlineHelpText>
+        <label>Acc. New Addr.: Rel. Contacts Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Acc_New_Addr_Sel_Cont_H__c</fullName>
+        <defaultValue>226</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Account New Address: Selected Contacts Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Account New Address: Selected Contacts Height (in pixels)</inlineHelpText>
+        <label>Acc. New Addr.: Sel. Contacts Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Acc_Shipping_Addr_Source__c</fullName>
+        <defaultValue>&apos;Shipping Address&apos;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Put one of the values of the Address Type picklist of the Address Mapping object. This value will be the source of the Shipping Address data on Account.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Put one of the values of the Address Type picklist of the Address Mapping object. This value will be the source of the Shipping Address data on Account.</inlineHelpText>
+        <label>Account Shipping Address - Address Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Active_Contact_Definition_Field__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Put the API name of the field on Contact Object that will determine whether the Contact is active.
+This field should be of checkbox type. Contact will be shown in the list if this field = True.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Put the API name of the field on Contact Object that will determine whether the Contact is active.
+This field should be of checkbox type. Contact will be shown in the list if this field = True.</inlineHelpText>
+        <label>Active Contact Definition Field</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Address_Query_Batch_Count__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Indicate how many batches Address Query is separated to</description>
+        <externalId>false</externalId>
+        <inlineHelpText>if the value of this field is set to 0 or blank, Address Query is separated to 2 SOQLs in default.</inlineHelpText>
+        <label>Address Query Batch Count</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Chunk_Size_For_Address_Batch__c</fullName>
+        <defaultValue>200</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Chunk size for address batch</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Chunk size for address batch</inlineHelpText>
+        <label>Chunk Size For Address Batch</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Chunk_Size_For_Address_Mapping_Batch__c</fullName>
+        <defaultValue>200</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Chunk size for address mapping batch</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Chunk size for address mapping batch</inlineHelpText>
+        <label>Chunk Size For Address Mapping Batch</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Cont_Mailing_Addr_Source__c</fullName>
+        <defaultValue>&apos;Mailing Address&apos;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Put one of the values of the Address Type picklist of the Address Mapping object. This value will be the source of the Mailing Address data on Contact.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Put one of the values of the Address Type picklist of the Address Mapping object. This value will be the source of the Mailing Address data on Contact.</inlineHelpText>
+        <label>Contact Mailing Address - Address Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Cont_New_Addr_Addr_Srch_H__c</fullName>
+        <defaultValue>149</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Contact New Address: Address Search Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Contact New Address: Address Search Height (in pixels)</inlineHelpText>
+        <label>Cont. New Addr.: Addr. Search Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Cont_New_Addr_Primary_Defaults_To_All__c</fullName>
+        <defaultValue>true</defaultValue>
+        <deprecated>false</deprecated>
+        <description>If checked, the Primary selection radios on Contact New Address page will be set to &apos;All&apos; by default. If unchecked, the initial value will be &apos;Primary&apos;.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If checked, the Primary selection radios on Contact New Address page will be set to &apos;All&apos; by default. If unchecked, the initial value will be &apos;Primary&apos;.</inlineHelpText>
+        <label>Cont. New Addr.: Primary Defaults To All</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Cont_New_Addr_Rel_Addr_H__c</fullName>
+        <defaultValue>226</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Contact New Address: Related Addresses Height (in pixels)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Contact New Address: Related Addresses Height (in pixels)</inlineHelpText>
+        <label>Cont. New Addr.: Rel. Addresses Height</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Cont_Other_Addr_Source__c</fullName>
+        <defaultValue>&apos;Other Address&apos;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Put one of the values of the Address Type picklist of the Address Mapping object. This value will be the source of the Other Address data on Contact.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Put one of the values of the Address Type picklist of the Address Mapping object. This value will be the source of the Other Address data on Contact.</inlineHelpText>
+        <label>Contact Other Address - Address Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Default_Country_ISO_Code__c</fullName>
+        <deprecated>false</deprecated>
+        <description>This ISO Code will be pre-populated on the new Address page.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This ISO Code will be pre-populated on the new Address page.</inlineHelpText>
+        <label>Default Country ISO Code</label>
+        <length>10</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Disable_Account_Move_Delete_Function__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>If checked, the Account Move/Delete functionality (moving/creating Addresses, re-parenting Address Mappings) will be disabled.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If checked, the Account Move/Delete functionality (moving/creating Addresses, re-parenting Address Mappings) will be disabled.</inlineHelpText>
+        <label>Disable Account Move/Delete Function</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Disable_Contact_Reparenting_Function__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>If checked, Address Mappings for the Contact that changed the Account and moved to another Account Hierarchy will not be re-parented to other Addresses.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If checked, Address Mappings for the Contact that changed the Account and moved to another Account Hierarchy will not be re-parented to other Addresses.</inlineHelpText>
+        <label>Disable Contact Reparenting Function</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Disable_Standard_Address_Population__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>If checked, standard Account and Contact Address fields will not be populated by Primary Addresses of any supported Address Types.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If checked, standard Account and Contact Address fields will not be populated by Primary Addresses of any supported Address Types.</inlineHelpText>
+        <label>Disable Standard Address Population</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enforce_Contact_Address_Deactivation__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>If checked, the Contact Address deactivation will be enforced on the Deactivate Address page.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If checked, the Contact Address deactivation will be enforced on the Deactivate Address page.</inlineHelpText>
+        <label>Enforce Contact Address Deactivation</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Pull_Account_Address_Creation_Contact__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>All Active Address Mapping records along with their Primary/Not Primary status related to Account that the Contact has been parented to are copied down to the Contact level on creation of the Contact</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If checked,All Active Address Mapping records related to Account that the Contact has been parented to are copied down to the Contact level on creation of the Contact.</inlineHelpText>
+        <label>Pull Account Address Creation Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Pull_Account_Addresses_Re_Parent_Contact__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>When selected,
+1.All existing Active Address Mappings against the Contact are deactivated
+2.All Active Address Mapping records along with their Primary/Not Primary status related to Account that the Contact has been re parented to are copied down to the Contact level. The following should be maintained:
+    a.Address Type
+    b.Primary/None Primary</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When selected,All existing Active Address Mappings against the Contact are deactivated,2.All Active Address Mapping records related to Account that the Contact has been re parented to are copied down to the Contact level.</inlineHelpText>
+        <label>Pull Account Addresses Re Parent Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>AAM Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>AamException</members>
+        <members>AccountHierarchyServices</members>
+        <members>AccountHierarchyServicesTest</members>
+        <members>AccountServices</members>
+        <members>AccountServicesTest</members>
+        <members>AddressListController</members>
+        <members>AddressListControllerTest</members>
+        <members>AddressManager</members>
+        <members>AddressMappingServices</members>
+        <members>AddressMappingServicesTest</members>
+        <members>AddressMappingWrapper</members>
+        <members>AddressMappingWrapperTest</members>
+        <members>AddressServices</members>
+        <members>AddressServicesTest</members>
+        <members>BatchRepairAddressMappings</members>
+        <members>BatchRepairAddressMappingsTest</members>
+        <members>BatchRepairAddresses</members>
+        <members>BatchRepairAddressesTest</members>
+        <members>BatchUpdateAddresses</members>
+        <members>BatchUpdateAddressesTest</members>
+        <members>ContactServices</members>
+        <members>ContactServicesTest</members>
+        <members>ContactWrapper</members>
+        <members>ContactWrapperTest</members>
+        <members>CountryServices</members>
+        <members>CountryServicesTest</members>
+        <members>DeactivateAddressController</members>
+        <members>DeactivateAddressControllerTest</members>
+        <members>FieldInfo</members>
+        <members>FieldInfoTest</members>
+        <members>HierarchyNode</members>
+        <members>HierarchyNodeTest</members>
+        <members>ManageAddressController</members>
+        <members>ManageAddressControllerTest</members>
+        <members>MergeAddressController</members>
+        <members>MergeAddressControllerTest</members>
+        <members>MergeServices</members>
+        <members>MergeServicesTest</members>
+        <members>NewAddressController</members>
+        <members>NewAddressControllerTest</members>
+        <members>PostInstallScript</members>
+        <members>PostInstallScriptTest</members>
+        <members>RepairAddressMappingsService</members>
+        <members>RepairAddressMappingsServiceTest</members>
+        <members>RepairAddressService</members>
+        <members>RepairAddressServiceTest</members>
+        <members>Utils</members>
+        <members>UtilsTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>AddressList</members>
+        <members>AddressListAccount</members>
+        <members>AddressListContact</members>
+        <members>DeactivateAddress</members>
+        <members>ManageAddress</members>
+        <members>MergeAddress</members>
+        <members>NewAddress</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>AccountTrigger</members>
+        <members>AddressMappingTrigger</members>
+        <members>AddressTrigger</members>
+        <members>ContactTrigger</members>
+        <members>CountryTrigger</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>standard__AppLauncher</members>
+        <members>standard__Chatter</members>
+        <members>standard__Community</members>
+        <members>standard__Content</members>
+        <members>standard__Marketing</members>
+        <members>standard__Platform</members>
+        <members>standard__Sales</members>
+        <members>standard__Service</members>
+        <members>standard__ServiceConsole</members>
+        <members>standard__Sites</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>CustomLabels</members>
+        <name>CustomLabels</name>
+    </types>
+    <types>
+        <members>Aam_Settings__c</members>
+        <members>Account</members>
+        <members>AccountCleanInfo</members>
+        <members>AccountContactRole</members>
+        <members>Activity</members>
+        <members>Address_Mapping__c</members>
+        <members>Address__c</members>
+        <members>Asset</members>
+        <members>AssetRelationship</members>
+        <members>AssistantProgress</members>
+        <members>Campaign</members>
+        <members>CampaignMember</members>
+        <members>Case</members>
+        <members>CaseContactRole</members>
+        <members>Contact</members>
+        <members>ContactCleanInfo</members>
+        <members>ContentVersion</members>
+        <members>Contract</members>
+        <members>ContractContactRole</members>
+        <members>Country_Mapping__c</members>
+        <members>DandBCompany</members>
+        <members>DuplicateRecordItem</members>
+        <members>DuplicateRecordSet</members>
+        <members>EmailMessage</members>
+        <members>Event</members>
+        <members>ExchangeUserMapping</members>
+        <members>FeedItem</members>
+        <members>ForecastingCategoryMapping</members>
+        <members>Idea</members>
+        <members>Lead</members>
+        <members>LeadCleanInfo</members>
+        <members>Macro</members>
+        <members>MacroAction</members>
+        <members>MacroInstruction</members>
+        <members>Opportunity</members>
+        <members>OpportunityCompetitor</members>
+        <members>OpportunityContactRole</members>
+        <members>OpportunityLineItem</members>
+        <members>Order</members>
+        <members>OrderItem</members>
+        <members>PartnerRole</members>
+        <members>Pricebook2</members>
+        <members>PricebookEntry</members>
+        <members>Product2</members>
+        <members>Scorecard</members>
+        <members>ScorecardMetric</members>
+        <members>Site</members>
+        <members>SocialPersona</members>
+        <members>Solution</members>
+        <members>StreamingChannel</members>
+        <members>Task</members>
+        <members>User</members>
+        <members>UserProvisioningRequest</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Address_Merge</members>
+        <members>Address__c</members>
+        <members>Country_Mapping__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Account-Account %28Marketing%29 Layout</members>
+        <members>Account-Account %28Sales%29 Layout</members>
+        <members>Account-Account %28Support%29 Layout</members>
+        <members>Account-Account Layout</members>
+        <members>Address_Mapping__c-Address Mapping Layout</members>
+        <members>Address__c-Address Layout</members>
+        <members>Asset-Asset Layout</members>
+        <members>Campaign-Campaign Layout</members>
+        <members>CampaignMember-Campaign Member Page Layout</members>
+        <members>Case-Case %28Marketing%29 Layout</members>
+        <members>Case-Case %28Sales%29 Layout</members>
+        <members>Case-Case %28Support%29 Layout</members>
+        <members>Case-Case Layout</members>
+        <members>CaseClose-Close Case Layout</members>
+        <members>Contact-Contact %28Marketing%29 Layout</members>
+        <members>Contact-Contact %28Sales%29 Layout</members>
+        <members>Contact-Contact %28Support%29 Layout</members>
+        <members>Contact-Contact Layout</members>
+        <members>ContentVersion-Content Version Layout</members>
+        <members>Contract-Contract Layout</members>
+        <members>Country_Mapping__c-Country Name Layout</members>
+        <members>DandBCompany-D%26B Company Layout</members>
+        <members>DuplicateRecordSet-Duplicate Record Set Layout</members>
+        <members>EmailMessage-Email Message Layout</members>
+        <members>Event-Event Layout</members>
+        <members>FeedItem-Feed Item Layout</members>
+        <members>Global-Global Layout</members>
+        <members>Idea-Idea Layout</members>
+        <members>Lead-Lead %28Marketing%29 Layout</members>
+        <members>Lead-Lead %28Sales%29 Layout</members>
+        <members>Lead-Lead %28Support%29 Layout</members>
+        <members>Lead-Lead Layout</members>
+        <members>Macro-Macro Layout</members>
+        <members>Opportunity-Opportunity %28Marketing%29 Layout</members>
+        <members>Opportunity-Opportunity %28Sales%29 Layout</members>
+        <members>Opportunity-Opportunity %28Support%29 Layout</members>
+        <members>Opportunity-Opportunity Layout</members>
+        <members>OpportunityLineItem-Opportunity Product Layout</members>
+        <members>Order-Order Layout</members>
+        <members>OrderItem-Order Product Layout</members>
+        <members>Pricebook2-Price Book Layout</members>
+        <members>PricebookEntry-Price Book Entry Layout</members>
+        <members>Product2-Product Layout</members>
+        <members>Scorecard-Scorecard Layout</members>
+        <members>ScorecardMetric-Scorecard Metric Layout</members>
+        <members>SocialPersona-Social Persona Layout</members>
+        <members>Solution-Solution Layout</members>
+        <members>Task-Task Layout</members>
+        <members>User-User Layout</members>
+        <members>UserProvAccount-User Provisioning Account Layout</members>
+        <members>UserProvisioningLog-User Provisioning Log Layout</members>
+        <members>UserProvisioningRequest-User Provisioning Request Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>AAMResources</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>Aam_Settings__c</members>
+        <members>Account</members>
+        <members>Address_Mapping__c</members>
+        <members>Address__c</members>
+        <members>Asset</members>
+        <members>AssetRelationship</members>
+        <members>AssistantProgress</members>
+        <members>Campaign</members>
+        <members>CampaignMember</members>
+        <members>Case</members>
+        <members>Contact</members>
+        <members>Contract</members>
+        <members>Country_Mapping__c</members>
+        <members>DandBCompany</members>
+        <members>DuplicateRecordItem</members>
+        <members>DuplicateRecordSet</members>
+        <members>EmailMessage</members>
+        <members>Event</members>
+        <members>ExchangeUserMapping</members>
+        <members>FeedItem</members>
+        <members>Idea</members>
+        <members>Lead</members>
+        <members>Macro</members>
+        <members>MacroAction</members>
+        <members>MacroInstruction</members>
+        <members>Opportunity</members>
+        <members>OpportunityLineItem</members>
+        <members>Order</members>
+        <members>OrderItem</members>
+        <members>Organization</members>
+        <members>Product2</members>
+        <members>Site</members>
+        <members>SocialPersona</members>
+        <members>Solution</members>
+        <members>StreamingChannel</members>
+        <members>Task</members>
+        <members>User</members>
+        <members>UserLicense</members>
+        <members>UserProvisioningRequest</members>
+        <name>Workflow</name>
+    </types>
+    <version>41.0</version>
+</Package>

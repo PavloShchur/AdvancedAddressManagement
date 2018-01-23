@@ -1,0 +1,116 @@
+<apex:page showHeader="true" controller="AddressListController" language="{!$CurrentPage.parameters.lang}">
+  <script src="{!URLFOR($Resource.AAMResources, 'jquery-1.11.3.min.js')}"></script>
+  <script src="{!URLFOR($Resource.AAMResources, 'common_scripts.js')}"></script>
+  <script src="{!URLFOR($Resource.AAMResources, 'addresslist_scripts.js')}"></script>
+  <script type="text/javascript">function setFocusOnLoad() {}</script>
+  <link rel="stylesheet" href="{!URLFOR($Resource.AAMResources, 'common_styles.css')}"/>
+  <link rel="stylesheet" href="{!URLFOR($Resource.AAMResources, 'addresslist_styles.css')}"/>
+
+  <div class="height" style="position: relative;">
+    <div class="pleaseWait hidden"></div>
+    <div id="cancelDialog" class="customDialog hidden">
+      <div class="popupScreen">
+        <div class="popupScreenHeader">Notification</div>
+        <div class="popupScreenData">
+          <div class="messagetext red" style="font-weight: bold;">{!$Label.Message_No_Account_Id_On_Contact}</div>
+          <div style="padding-top: 10px;">
+            <input type="button" class="btn" style="width: 80px;" value="OK" onclick="dialog( 'cancelDialog', false );"></input>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="deactivateDialog" class="customDialog hidden">
+      <div class="popupScreen">
+        <div class="popupScreenHeader">Notification</div>
+        <div class="popupScreenData">
+          <div class="messagetext" style="font-weight: bold;">{!$Label.Message_Deactivate_Link}</div>
+          <div style="padding-top: 10px;">
+            <input id="deactButton" type="button" class="btn" style="width: 80px;" value="Yes" onclick="dialog( 'deactivateDialog', false ); deactivateAddress( dialogParameter );"></input>
+            <input id="deactContactsButton" type="button" class="btn{!IF( objectName == 'Account', '', ' hidden' )}" style="width: 140px;" value="Yes & Related Contacts" onclick="dialog( 'deactivateDialog', false ); window.top.location = '{!$Page.DeactivateAddress}?id=' + dialogParameter/* + '&retURL=%2F{!recordId}'*/;"></input>
+            <input type="button" class="btn" style="width: 80px;" value="Cancel" onclick="dialog( 'deactivateDialog', false );"></input>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="deactivatePrimaryDialog" class="customDialog hidden">
+      <div class="popupScreen">
+        <div class="popupScreenHeader">Notification</div>
+        <div class="popupScreenData">
+          <div class="messagetext" style="font-weight: bold;">{!$Label.Message_Deactivate_Primary_Record}</div>
+          <div style="padding-top: 10px;">
+            <input type="button" class="btn" style="width: 80px;" value="OK" onclick="dialog( 'deactivatePrimaryDialog', false );"></input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <apex:form id="form" styleClass="height">
+      <apex:actionStatus id="status" onstart="status( true );" onstop="status( false );"/>
+      <apex:actionFunction name="filterRecords" action="{!filterRecords}" reRender="countRecords, records, msgs" status="status">
+        <apex:param name="filterText" value="" assignTo="{!filterText}"/>
+      </apex:actionFunction>
+      <apex:actionFunction name="deactivateAddress" action="{!deactivateAddress}" reRender="countRecords, records, msgs" status="status">
+        <apex:param name="deactivateAddressRecordId" value="" assignTo="{!deactivateAddressRecordId}"/>
+      </apex:actionFunction>
+
+      <div class="apexp height" style="position: relative;">
+        <div class="individualPalette height">
+          <div class="accountBlock height">
+            <div class="bPageBlock brandSecondaryBrd apexDefaultPageBlock secondaryPalette height" style="box-sizing: border-box;">
+              <div class="pbBody absolute">
+                <div class="pbSubheader brandTertiaryBgr first tertiaryPalette">
+                  <div><!--
+                    --><apex:outputPanel id="countRecords" layout="block" styleClass="inlineb" style="margin-left: 5px;"><h3 style="vertical-align: middle;">{!IF( addressMappings.size == 1, $Label.fil_aam__page_header_address_information, SUBSTITUTE( $Label.fil_aam__page_header_addresses_informatio, '{0}', TEXT(addressMappings.size) ) )}</h3></apex:outputPanel><!--
+                    --><div class="inlineb" style="position: relative; margin-left: 10px; vertical-align: middle;"><!--
+                      --><input type="text" id="search" class="search" onkeypress="return preventSubmission( event );" onkeyup="showXButton( 'search' ); filterRecordsJs( this.value, 1000, event );" placeholder="Search"></input><script type="text/javascript">showXButton( 'search' );</script><!--
+                      --><div class="search" onclick="$('#search').focus();"></div><!--
+                      --><div class="searchX hidden" onclick="removeXButton( 'search' ); filterRecordsJs( '', 50 );"></div><!--
+                    --></div><!--
+                    --><div class="inlineb" style="font-size: 1.1em; margin-left: 10px; vertical-align: middle;"><!--
+                      --><input type="button" class="btn inlineb" onclick="if( {!newAddressLinkAvailable} ) { window.top.location = '{!$Page.NewAddress}?id={!recordId}'/* + '&retURL=%2F{!recordId}'*/; } else { dialog( 'cancelDialog', true ); }" value="{!$Label.Button_Text_New_Address}"></input><!--
+                    --></div><!--
+                  --></div>
+                </div>
+                <apex:outputPanel layout="block" id="records" styleClass="pbSubsection dataCol absolute" style="padding: 0; overflow: auto; top: 40px;">
+                  <apex:pageMessages id="msgs"/>
+                  <table id="recordsTable" class="table list{!IF( filterText != '' && filteredRecords.size == 0, ' hidden', '' )}" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                      <apex:repeat value="{!filteredRecords}" var="record">
+                        <tr>
+                          <td class="actionColumn" style="width: 1px; white-space: nowrap; text-align: center;">
+                            <a class="actionLink" href="#" onclick="window.top.location = '{!$Page.ManageAddress}?id={!record.record.Id}'/* + '&retURL=%2F{!recordId}'*/;">Manage</a> | <a class="actionLink" href="#" onclick="$('#deactButton').css( 'display', '{!IF( !settings.Enforce_Contact_Address_Deactivation__c || !record.hasContactsWithMappings, 'inline-block', 'none' )}' ); $('#deactContactsButton').css( 'display', '{!IF( record.hasContactsWithMappings, 'inline-block', 'none' )}' ); if( {!!record.record.Primary__c || record.recordsOfSameType <= 2} ) { dialog( 'deactivateDialog', true, '{!record.record.Id}' ); } else { $( '#deactivatePrimaryDialog .messagetext' ).text( '{!SUBSTITUTE( $Label.fil_aam__message_deactivate_primary_record, '{0}', record.record.Address_Type__c )}' ); dialog( 'deactivatePrimaryDialog', true ); }">Deactivate</a>
+                          </td>
+                          <td style="width: 1px; white-space: nowrap;">
+                            <apex:outputField value="{!record.record.Address_Type__c}"/>
+                          </td>
+                          <td>
+                            <div class="ellipsis"><a href="/{!record.record.Address__c}" target="_top">{!record.address}</a></div>
+                          </td>
+                          <td style="width: 1px; white-space: nowrap; text-align: center;">
+                            <span class="red">{!IF(record.record.Primary__c, 'PRIMARY', '')}</span>
+                          </td>
+                          <td style="width: 1px; white-space: nowrap; text-align: center;">
+                            <div class="btn maplink"><apex:outputText escape="false" value="{!SUBSTITUTE( record.record.Map_Link__c, $Label.fil_aam__link_text_get_directions, $Label.fil_aam__button_text_map )}"/></div>
+                          </td>
+                        </tr>
+                      </apex:repeat>
+                    </tbody>
+                  </table>
+                  <table class="table list{!IF( filterText != '' && filteredRecords.size == 0, '', ' hidden' )}" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td>
+                        {!$Label.Message_No_Search_Result}
+                      </td>
+                    </tr>
+                  </table>
+                </apex:outputPanel>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </apex:form>
+
+  </div>
+
+</apex:page>

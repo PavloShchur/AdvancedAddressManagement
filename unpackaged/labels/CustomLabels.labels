@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Address_Mapping_instance_has_both_Contact_and_Account_fields_populated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Address Mapping instance has both Contact and Account fields populated</shortDescription>
+        <value>Address Mapping instance has both Contact and Account fields populated. Merging is impossible.</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Account_Link_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Account Link Address</shortDescription>
+        <value>Link Address</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Cancel_Return</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Cancel Return</shortDescription>
+        <value>Cancel / Return</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Clear_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Clear Address</shortDescription>
+        <value>Clear Address</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Create_Address_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Create Address Link</shortDescription>
+        <value>Create Address Link</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Create_Address_Links</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Create Address Links</shortDescription>
+        <value>Create Address Link(s)</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Deactivate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Deactivate</shortDescription>
+        <value>Deactivate</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Deactivate_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Deactivate Address</shortDescription>
+        <value>Deactivate Address Link(s)</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Deactivate_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Deactivate All</shortDescription>
+        <value>Deactivate All</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Deactivate_And_Create_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Deactivate And Create Address</shortDescription>
+        <value>Deactivate Address Link(s) &amp; Create New Address Link</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Link_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Link Address</shortDescription>
+        <value>Link Address</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Link_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Link All</shortDescription>
+        <value>Link All</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Map</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Map</shortDescription>
+        <value>Map</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Merge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Merge</shortDescription>
+        <value>Merge</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_New_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text New Address</shortDescription>
+        <value>New Address Link</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Next</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Next</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Reactivate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Reactivate</shortDescription>
+        <value>Reactivate</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Reactivate_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Reactivate All</shortDescription>
+        <value>Reactivate All</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Unlink_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Unlink Address</shortDescription>
+        <value>Unlink Address</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Unlink_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Unlink All</shortDescription>
+        <value>Unlink All</value>
+    </labels>
+    <labels>
+        <fullName>Button_Text_Update_Address_Links</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Button Text Update Address Links</shortDescription>
+        <value>Update Address Link(s)</value>
+    </labels>
+    <labels>
+        <fullName>Google_Maps_Address_Url</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Google Maps Address URL</shortDescription>
+        <value>https://maps.google.com/maps?saddr=current+location&amp;daddr={0}&amp;layer=t</value>
+    </labels>
+    <labels>
+        <fullName>Link_Text_Get_Directions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Link Text Get Directions</shortDescription>
+        <value>Get Directions</value>
+    </labels>
+    <labels>
+        <fullName>Message_Create_Address_Account</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Create Address Account</shortDescription>
+        <value>Are you sure you would like to create an Address Link for the Account and any selected Contacts?</value>
+    </labels>
+    <labels>
+        <fullName>Message_Create_Address_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Create Address Contact</shortDescription>
+        <value>Are you sure you would like to create an Address Link for the Contact?</value>
+    </labels>
+    <labels>
+        <fullName>Message_Deactivate_Address_Account</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Deactivate Address Account</shortDescription>
+        <value>Are you sure you would like to deactivate the address link(s)?</value>
+    </labels>
+    <labels>
+        <fullName>Message_Deactivate_And_Create_Address_Account</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Deactivate And Create Address Account</shortDescription>
+        <value>Are you sure you would like to deactivate the address link(s)?</value>
+    </labels>
+    <labels>
+        <fullName>Message_Deactivate_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Deactivate Link</shortDescription>
+        <value>Are you sure you would like to deactivate this Address Link?</value>
+    </labels>
+    <labels>
+        <fullName>Message_Deactivate_Primary_Record</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Deactivate Primary Record</shortDescription>
+        <value>You must add/select another Primary {0} before deactivating this address</value>
+    </labels>
+    <labels>
+        <fullName>Message_Duplicate_Address_Link_On_Account</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Duplicate Address Link On Account</shortDescription>
+        <value>You are attempting to create a duplicate address link against the account</value>
+    </labels>
+    <labels>
+        <fullName>Message_Merge_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Merge Address</shortDescription>
+        <value>Are you sure you would like to merge the Address records?</value>
+    </labels>
+    <labels>
+        <fullName>Message_No_Account_Id_On_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message No Account Id On Contact</shortDescription>
+        <value>You must link the Contact to an Account before creating an address link</value>
+    </labels>
+    <labels>
+        <fullName>Message_No_Addresses_To_Merge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message No Addresses To Merge</shortDescription>
+        <value>No Address records to merge</value>
+    </labels>
+    <labels>
+        <fullName>Message_No_Field_Value</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message No Field Value</shortDescription>
+        <value>&lt;b&gt;Error:&lt;/b&gt; You must enter a value</value>
+    </labels>
+    <labels>
+        <fullName>Message_No_Minimum_Amount_Of_Fields_Entered_For_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message No Minimum Amount Of Fields Entered For Search</shortDescription>
+        <value>You must populate at least 2 fields in the &quot;Address&quot; section in order to carry out a search</value>
+    </labels>
+    <labels>
+        <fullName>Message_No_Search_Result</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message No Search Result</shortDescription>
+        <value>There are no records that match your search</value>
+    </labels>
+    <labels>
+        <fullName>Message_No_Search_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message No Search Results</shortDescription>
+        <value>There are no address records in the account hierarchy that match your search</value>
+    </labels>
+    <labels>
+        <fullName>Message_Not_All_Required_Fields_Entered</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Not All Required Fields Entered</shortDescription>
+        <value>Please review all error messages below to correct your data</value>
+    </labels>
+    <labels>
+        <fullName>Message_Update_Address_Account</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Update Address Account</shortDescription>
+        <value>Are you sure you would like to update the Address Link for the Account and any selected Contacts?</value>
+    </labels>
+    <labels>
+        <fullName>Message_Update_Address_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Update Address Contact</shortDescription>
+        <value>Are you sure you would like to update the Address Link for this Contact?</value>
+    </labels>
+    <labels>
+        <fullName>Page_Header_Additional_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Page Header Additional Information</shortDescription>
+        <value>Additional Information</value>
+    </labels>
+    <labels>
+        <fullName>Page_Header_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Page Header Address</shortDescription>
+        <value>Address</value>
+    </labels>
+    <labels>
+        <fullName>Page_Header_Address_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Page Header Address Information</shortDescription>
+        <value>Address Information (1 Address)</value>
+    </labels>
+    <labels>
+        <fullName>Page_Header_Address_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Page Header Address Search</shortDescription>
+        <value>Address Search ({0})</value>
+    </labels>
+    <labels>
+        <fullName>Page_Header_Addresses_Informatio</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Page Header Addresses Information</shortDescription>
+        <value>Address Information ({0} Addresses)</value>
+    </labels>
+    <labels>
+        <fullName>Page_Header_Related_Contacts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Page Header Related Contacts</shortDescription>
+        <value>Related Contacts ({0})</value>
+    </labels>
+    <labels>
+        <fullName>Page_Header_Selected_Contacts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Page Header Selected Contacts</shortDescription>
+        <value>Selected Contacts ({0})</value>
+    </labels>
+</CustomLabels>
